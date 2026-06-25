@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Phishing URL Detector — Analyze URLs to detect phishing attacks using advanced rule-based detection. Protect yourself from malicious websites.">
+    <meta name="keywords" content="phishing, URL checker, cybersecurity, URL scanner, phishing detection, website safety">
+    <meta name="author" content="Harsimran Singh">
+
+    <title>Phishing URL Detector — Analyze. Detect. Protect.</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="shield-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M9 12l2 2 4-4" class="shield-check"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1>Phishing URL Detector</h1>
+                    <p class="tagline">Analyze. Detect. Protect.</p>
+                </div>
+            </div>
+            <div class="header-badge">
+                <span class="pulse-dot"></span>
+                AI-Powered Security
+            </div>
+        </header>
+
+        <!-- Main Scanner Section -->
+        <main>
+            <section class="scanner-section" id="scanner">
+                <div class="scanner-card glass-card">
+                    <h2 class="scanner-title">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                        Check a URL
+                    </h2>
+                    <p class="scanner-subtitle">Enter a URL below to find out if it's safe or potentially a phishing attack</p>
+
+                    <form id="url-form" class="url-form">
+                        <div class="input-wrapper">
+                            <div class="input-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                                </svg>
+                            </div>
+                            <input
+                                type="text"
+                                id="url-input"
+                                class="url-input"
+                                placeholder="Enter URL to analyze (e.g., https://example.com)"
+                                autocomplete="off"
+                                spellcheck="false"
+                                required
+                            >
+                            <button type="submit" id="check-btn" class="check-btn">
+                                <span class="btn-text">Check</span>
+                                <span class="btn-loader" style="display: none;">
+                                    <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+                        <div id="input-error" class="input-error" style="display: none;"></div>
+                    </form>
+
+                    <!-- Scanning Animation -->
+                    <div id="scanning-overlay" class="scanning-overlay" style="display: none;">
+                        <div class="scan-line"></div>
+                        <p class="scan-text">Analyzing URL for phishing indicators...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="result-section" class="result-section" style="display: none;">
+                <div class="result-card glass-card">
+                    <!-- Status Header -->
+                    <div id="result-header" class="result-header">
+                        <div class="status-icon-wrapper" id="status-icon-wrapper">
+                            <div class="status-icon" id="status-icon"></div>
+                        </div>
+                        <div class="result-info">
+                            <h3 id="result-status-text" class="result-status-text">Safe</h3>
+                            <p id="result-url" class="result-url"></p>
+                        </div>
+                        <div class="score-ring-wrapper">
+                            <svg class="score-ring" viewBox="0 0 120 120">
+                                <circle class="score-ring-bg" cx="60" cy="60" r="50"/>
+                                <circle class="score-ring-fill" id="score-ring-fill" cx="60" cy="60" r="50"/>
+                            </svg>
+                            <div class="score-value">
+                                <span id="score-number" class="score-number">0</span>
+                                <span class="score-label">Risk</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Safe Browsing Badge -->
+                    <div id="safe-browsing-badge" class="safe-browsing-badge" style="display: none;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <span id="safe-browsing-text"></span>
+                    </div>
+
+                    <!-- Check Details -->
+                    <div class="checks-container">
+                        <h4 class="checks-title">Detection Results</h4>
+                        <div id="checks-list" class="checks-list"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section class="history-section">
+                <div class="history-header" id="history-toggle">
+                    <h3 class="history-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        Scan History
+                    </h3>
+                    <div class="history-controls">
+                        <span id="history-count" class="history-count">0 scans</span>
+                        <button id="clear-history-btn" class="clear-btn" title="Clear History">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                        </button>
+                        <button class="toggle-btn" id="toggle-history-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="history-panel" class="history-panel" style="display: none;">
+                    <div id="history-list" class="history-list">
+                        <div class="history-empty">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                            </svg>
+                            <p>No scans yet. Enter a URL above to get started.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Built by <a href="https://github.com/harsimran726" target="_blank" rel="noopener">Harsimran Singh</a> · Phishing URL Detector &copy; 2026</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
