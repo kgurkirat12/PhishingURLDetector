@@ -60,7 +60,7 @@ A web-based application that detects whether a given URL is safe or potentially 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/harsimran726/phishing-url-detector.git
+   git clone https://github.com/kgurkirat12/phishing-url-detector.git
    cd phishing-url-detector
    ```
 
@@ -181,12 +181,6 @@ Clear all scan history.
 ```
 
 ---
-
-## 👨‍💻 Author
-
-**Harsimran Singh**
-- GitHub: [@harsimran726](https://github.com/harsimran726)
-- LinkedIn: [harsimransinghaiengineer](https://www.linkedin.com/in/harsimransinghaiengineer/)
 
 ---
 
